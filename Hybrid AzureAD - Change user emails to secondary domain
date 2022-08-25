@@ -1,0 +1,50 @@
+Write-host "This script converts the UPNs and proxyAddresses attributes to a new domain name"
+
+$ADL = Read-Host "Enter target OU"
+#Example OU=Users,DC=Contoso,DC=com#
+pause
+
+$users = Get-ADUser -Filter 'Name -like "*"' -SearchBase $ADL -Properties * 
+#Creates an array of user's attributes in the target OU#
+
+#change the domains in the following variables - linke 13 and 24 are not necessary if you do not want the users old SMTP proxyAddress to become an email alias#
+$samAccountName = $users.samAccountName
+$SMTP = ("SMTP:"+$Samaccountname+"%@newdomain.com%")
+$alias = ("smtp:"+$Samaccountname+"%@olddomain.com%")
+$UPN = ($samAccountName+"@%newdomain.com%")
+
+Import-Module ActiveDirectory
+
+Write-host "Deleting old proxyAddresses, adding new proxyAddresses, and modifying UPNs"
+
+foreach($user in $users)
+{
+Set-ADUser -identity $user -clear proxyAddresses
+Set-ADUser -identity $user -add @{proxyAddresses=$SMTP}
+Set-ADUser -identity $user -add @{proxyAddresses=$alias}
+Set-ADUser -identity $user -replace @{userprincipalname=$UPN}
+}
+
+Start-Sleep -Seconds 30
+Write-Host "press enter to replicate DCs"
+pause
+repadmin /syncall /AdeP
+pause
+
+Clear-Host
+
+Write-Host "Connecting to AAD Sync Server"
+Write-Host "Enter domain admin credentials"
+$credentials = get-credential
+pause
+
+#The next section assures your AAD sync server is on a different host - be sure to change the target hostname#
+$aadc = New-PSSession –ComputerName %AADSyncServer$ –Credential $credentials
+Write-Host "Syncing AAD Connect"
+Invoke-Command -Session $aadc {
+	Import-Module ADSync
+	Start-ADSyncSyncCycle -PolicyType Delta
+}
+
+Write-host "eyyyyy you did it!"
+pause
