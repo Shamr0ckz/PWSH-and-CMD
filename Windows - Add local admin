@@ -1,0 +1,4 @@
+#create the local user#
+net user %username% %password% /add
+#add user to the local administrators group, a reboot is required to finalize#
+net localgroup administrators %username% /add
