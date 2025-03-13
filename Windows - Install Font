@@ -1,0 +1,3 @@
+#Copy font to proper folder#
+Copy-Item "C:\TPath\%FontFileName%.otf" "C:\Windows\Fonts"
+New-ItemProperty -Name "Custom Font Name (TrueType)" -Path "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Fonts" -PropertyType string -Value "%FontName%.odf"
