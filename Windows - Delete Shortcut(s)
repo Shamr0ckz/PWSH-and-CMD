@@ -1,0 +1,9 @@
+$paths =  "c:\Users\Public\Desktop\BrowserShortcut1.url", "c:\Users\Public\Desktop\BrowserShortcut2.url", "C:\Users\Public\Desktop\AppShortcut.lnk"
+foreach($filePath in $paths)
+{
+    if (Test-Path $filePath) {
+        Remove-Item $filePath -verbose
+    } else {
+        Write-Host "Path doesn't exits"
+    }
+}
