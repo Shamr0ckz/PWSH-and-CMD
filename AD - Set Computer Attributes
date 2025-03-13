@@ -1,0 +1,12 @@
+#This works great with Scheduled Tasks#
+#Set OU to target#
+$ADL = "OU=%Organizational Unit%,DC=%Domain Prefix$,DC=%Domain%,DC=%TLD%"
+
+#Create an array of user's attributes in the target OU#
+$computers = Get-ADComputer -Filter 'Name -like "*"' -SearchBase $ADL -Properties samaccountname, department, location
+
+foreach($computer in $computers)
+{
+Set-ADComputer -Identity $computer -replace @{department="%Custom Department Name%"}
+Set-ADComputer -Identity $computer -replace @{location="%Custom Location Name%"}
+}
