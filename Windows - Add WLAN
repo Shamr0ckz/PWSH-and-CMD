@@ -1,0 +1,43 @@
+#Imports WLAN xml profile#
+#Change the user parameter to a specific samAccountname if you want to limit to a specific user, local Windows profile must exist or this will fail#
+netsh wlan add profile filename="C:\Path\To\WLAN_Profile.xml" user=all
+
+
+
+
+
+
+#-------------------------------------------#
+#Below is an example of the WLAN_Profile.xml to us#
+#Replace values within the %% with your details#
+
+<?xml version="1.0"?>
+<WLANProfile xmlns="http://www.microsoft.com/networking/WLAN/profile/v1">
+	<name>%WLAN NAME%</name>
+	<SSIDConfig>
+		<SSID>
+			<hex>54726962616C2045717569706D656E74204F6E6C79</hex>
+			<name>%SSID NAME%</name>
+		</SSID>
+	</SSIDConfig>
+	<connectionType>ESS</connectionType>
+	<connectionMode>auto</connectionMode>
+	<MSM>
+		<security>
+			<authEncryption>
+				<authentication>%AUTHENTICATION TYPE - like WPA2PSK%</authentication>
+				<encryption>AES</encryption>
+				<useOneX>false</useOneX>
+			</authEncryption>
+			<sharedKey>
+				<keyType>passPhrase</keyType>
+				<protected>false</protected>
+				<keyMaterial>%PASSWORD%</keyMaterial>
+			</sharedKey>
+		</security>
+	</MSM>
+	<MacRandomization xmlns="http://www.microsoft.com/networking/WLAN/profile/v3">
+		<enableRandomization>false</enableRandomization>
+		<randomizationSeed>1505026913</randomizationSeed>
+	</MacRandomization>
+</WLANProfile>
