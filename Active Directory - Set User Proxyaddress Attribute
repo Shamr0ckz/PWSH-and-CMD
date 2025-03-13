@@ -1,0 +1,23 @@
+Import-Module ActiveDirectory
+
+$users = Get-ADUser -SearchScope OneLevel -SearchBase ‘OU=%ORGANIZATIONAL UNIT%,DC=%DOMAIN PREFIX%,DC=%DOMAIN NAME%,DC=%TLD%’ -filter *
+
+foreach ($user in $users)
+
+{
+
+$email = $user.userprincipalname
+
+$SAM = $user.sAMAccountname
+
+$proxyaddress = "SMTP:"+$email
+
+$proxyaddress2 = "smtp:"+$SAM+"@$DOMAIN$.mail.onmicrosoft.com"
+
+Set-ADUser $user -Add @{proxyAddresses = ($proxyaddress2)}
+
+Set-ADUser $user -Add @{proxyAddresses = ($proxyaddress)}
+
+Set-ADuser $user -emailaddress $email
+
+}
