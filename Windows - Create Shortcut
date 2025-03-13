@@ -1,0 +1,8 @@
+##This makes a public desktop shortcut for teams, edit variables as desired##
+
+$TargetFile = "C:\Program Files (x86)\Teams Installer\Teams.exe"
+$ShortcutFile = "$env:Public\Desktop\Microsoft Teams.lnk"
+$WScriptShell = New-Object -ComObject WScript.Shell
+$Shortcut = $WScriptShell.CreateShortcut($ShortcutFile)
+$Shortcut.TargetPath = $TargetFile
+$Shortcut.Save()
