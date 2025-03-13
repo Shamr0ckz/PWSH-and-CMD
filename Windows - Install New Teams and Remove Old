@@ -1,0 +1,35 @@
+$Username = Query User | Select-String '^>(\w+)' | ForEach-Object { $_.Matches[0].Groups[1].Value }
+$US1 = "C:\Users\$($Username)\Desktop\Microsoft Teams.lnk"
+$US1Test = Test-Path $US1
+$US2 = "C:\Users\$($username).%DOMAIN PREFIX%\Desktop\Microsoft Teams.lnk"
+$US2Test = Test-Path $US2
+$PubS = "C:\Users\Public\Desktop\Microsoft Teams.lnk"
+$PubSTest = Test-Path $PubS
+$TAD1 = "C:\Users\$($Username)\AppData\Local\Microsoft\Teams\Update.exe"
+$TAD1Test = Test-Path $TAD1
+$TAD2 = "C:\Users\$($Username).%DOMAIN PREFIX%\AppData\Local\Microsoft\Teams\Update.exe"
+$TAD2Test = Test-Path $TAD2
+$INSTALLER = "C:\Program Files (x86)\Teams Installer\Teams.exe"
+$IPTest = Test-Path $INSTALLER
+
+Start-Sleep -Seconds 2
+
+If ( $US1Test -eq "False" ) {
+    Write-Host "No user shortcut1"
+    If ( $US2Test -eq "False" ) {
+        Write-Host "No user shortcut2"
+        If ( $PubSTest -eq "False" ) {
+            Write-Host "No public shortcut1"
+            If ( $TAD1Test -eq "False" ) {
+                Write-Host "No user appdata1"
+                If ( $TAD2Test -eq "False" ) {
+                    Write-Host "No user appdata2"
+                }
+            }
+        }
+    }
+} Else {
+    If ( $IPTest -eq "True" ) {
+        Start-Process $INSTALLER
+    }
+}
