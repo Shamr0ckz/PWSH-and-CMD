@@ -1,4 +1,5 @@
 ##This makes a public desktop shortcut for teams, edit variables as desired##
+##Add new line before $Shortcut.Save() to customize attribute > $shortcut.IconLocation = "C:\Path\CustomIcon.ico" ##
 
 $TargetFile = "C:\Program Files (x86)\Teams Installer\Teams.exe"
 $ShortcutFile = "$env:Public\Desktop\Microsoft Teams.lnk"
