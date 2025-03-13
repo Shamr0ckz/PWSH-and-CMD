@@ -1,0 +1,12 @@
+##Add driver to store########
+Pnputil /add-driver C:\Path\PrintDriver.inf
+
+##Create Print Driver Name###
+Add-PrinterDriver -Name "%Driver Display Name%"
+
+###Create port####
+Add-PrinterPort -Name "%Whatever you want to call the port%" -PrinterHostAddress %IPv4 address or physical port%
+
+####Create printer by putting everything above together####
+Add-Printer -DriverName "%Driver Display Name%" -Name "%Printer Display Name%" -PortName "%Port name%"
+
