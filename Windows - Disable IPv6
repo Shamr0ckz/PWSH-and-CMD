@@ -1,0 +1,3 @@
+Get-NetAdapterBinding -ComponentID ms_tcpip6
+#Disable IPv6 for all network adapters.  Change the Name parameter to a specific adapter name if desired.#
+Disable-NetAdapterBinding -Name "*" -ComponentID ms_tcpip6
