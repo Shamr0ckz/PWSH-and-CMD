@@ -19,4 +19,11 @@ $CalendarDelegate = Read-Host "Enter UPN of delegate to share the calendar with"
 $Permissions = Read-Host "Enter permissions to grant" $CalendarDelegate "(Owner, Editor, Reviewer, etc.)"
 
 #Execute share#
-Add-MailboxFolderPermission -Identity $CalendarUPN -User $CalendarDelegate -AccessRights Editor
+Add-MailboxFolderPermission -Identity $CalendarPath -User $CalendarDelegate -AccessRights $Permissions
+
+#Show new permissions#
+Write-Host "New permissions are:"
+Get-MailboxFolderPermission -Identity $CalendarUPN
+
+Read-Host -Prompt "Press any key to end script..."
+Exit
